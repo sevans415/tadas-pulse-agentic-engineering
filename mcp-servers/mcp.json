@@ -1,7 +1,7 @@
 {
   "cw-log-analyzer": {
     "title": "Log Analyzer with CloudWatch Logs",
-    "description": "Search and filter CloudWatch Logs, find error patterns, and correlate log events across multiple AWS services.",
+    "description": "Use when debugging or investigating issues that would likely benefit from CloudWatch log introspection. Search and filter CloudWatch Logs, find error patterns, and correlate log events across multiple services.",
     "type": "stdio",
     "command": "uvx",
     "args": [
@@ -13,6 +13,36 @@
       "AWS_DEFAULT_REGION": "us-east-1",
       "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
       "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}"
+    }
+  },
+  "pg-postgres-mcp-ro": {
+    "title": "PostgreSQL MCP Pro (Read-Only)",
+    "description": "PostgreSQL tuning and analysis server. Provides index tuning, explain plans, health checks, and safe SQL execution. Read-only with resource limits.",
+    "type": "stdio",
+    "command": "uvx",
+    "args": [
+      "--from",
+      "postgres-mcp==0.3.0",
+      "postgres-mcp",
+      "--access-mode=restricted"
+    ],
+    "env": {
+      "DATABASE_URI": "postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DATABASE}"
+    }
+  },
+  "pg-postgres-mcp-rw": {
+    "title": "PostgreSQL MCP Pro (Read-Write)",
+    "description": "PostgreSQL tuning and analysis server. Provides index tuning, explain plans, health checks, and safe SQL execution. Full read/write access for development.",
+    "type": "stdio",
+    "command": "uvx",
+    "args": [
+      "--from",
+      "postgres-mcp==0.3.0",
+      "postgres-mcp",
+      "--access-mode=unrestricted"
+    ],
+    "env": {
+      "DATABASE_URI": "postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DATABASE}"
     }
   }
 }

@@ -62,10 +62,20 @@ Reference the full mcp.json specification at: `docs/MCP_JSON.md` in this reposit
 | `pypi` | `uvx` (default) | `"uvx"` |
 | `oci` | — | `"docker"` |
 
+#### Version pinning
+
+Always pin to a specific version when one is available in the server.json. This avoids supply chain attacks where a compromised latest version gets pulled automatically on every launch.
+
+- **npm**: `@modelcontextprotocol/server-github@0.6.2` not `@modelcontextprotocol/server-github`
+- **pypi**: `weather-mcp-server==0.5.0` not `weather-mcp-server`
+- **oci**: `docker.io/mcp/server:1.0.2` (already versioned by tag)
+
+If the server.json has no `version` field, note this in the output and suggest the user pin one manually.
+
 #### Args construction
 
-- **npm**: `["-y", "<identifier>", ...packageArguments]`
-- **pypi**: `["<identifier>", ...packageArguments]`
+- **npm**: `["-y", "<identifier>@<version>", ...packageArguments]`
+- **pypi**: `["<identifier>==<version>", ...packageArguments]`
 - **oci**: `["run", "-i", "--rm", ...runtimeArguments, "<identifier>:<version>", ...packageArguments]`
 
 For `packageArguments`, resolve them as follows:
@@ -90,7 +100,7 @@ Do NOT just copy the server.json `description` verbatim — it's often too gener
 A good description should answer: "If I'm scanning a list of 20 servers, what tells me *this* is the one I need right now?"
 
 Guidelines:
-- **Lead with the specific capability**, not the product name (the `title` already has that)
+- **Start with "Use when..."** to frame the description as a trigger — what situation should make the user think of this server
 - **Name the concrete actions/tools** the server provides (e.g., "search logs, find error patterns, correlate across services" — not "provides access to logs")
 - **Include the scope/platform** when it differentiates (e.g., "CloudWatch Logs" not just "logs")
 - **Mention what makes it unique** vs. similar servers (e.g., "cross-service log correlation" is a differentiator vs. a generic log reader)
@@ -98,9 +108,9 @@ Guidelines:
 
 Examples:
 - Bad: `"GitHub API integration"` — too vague, could be anything
-- Good: `"Create/manage issues, PRs, branches, and files in GitHub repos. Search code, review diffs, and merge PRs."`
+- Good: `"Use when you need to work with GitHub repos. Create/manage issues, PRs, branches, and files. Search code, review diffs, and merge PRs."`
 - Bad: `"Provides access to AWS CloudWatch Logs"` — doesn't say what you can do with them
-- Good: `"Search and filter CloudWatch Logs, find error patterns, and correlate log events across multiple AWS services."`
+- Good: `"Use when debugging or investigating AWS services. Search and filter CloudWatch Logs, find error patterns, and correlate log events across multiple services."`
 
 ### Environment variable handling
 
@@ -194,7 +204,7 @@ Produces:
     "description": "Create/manage issues, PRs, branches, and files in GitHub repos. Search code, review diffs, and merge PRs.",
     "type": "stdio",
     "command": "npx",
-    "args": ["-y", "@modelcontextprotocol/server-github"],
+    "args": ["-y", "@modelcontextprotocol/server-github@0.6.2"],
     "env": {
       "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
     }
@@ -230,7 +240,7 @@ Produces:
     "title": "Weather",
     "type": "stdio",
     "command": "uvx",
-    "args": ["weather-mcp-server"],
+    "args": ["weather-mcp-server==0.5.0"],
     "env": {
       "WEATHER_API_KEY": "${WEATHER_API_KEY}",
       "WEATHER_UNITS": "celsius"

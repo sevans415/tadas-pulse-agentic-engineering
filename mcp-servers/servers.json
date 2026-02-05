@@ -85,5 +85,129 @@
         ]
       }
     ]
+  },
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.crystaldba/postgres-mcp",
+    "title": "PostgreSQL MCP Pro",
+    "description": "PostgreSQL tuning and analysis with index tuning, explain plans, and health checks.",
+    "version": "0.3.0",
+    "websiteUrl": "https://github.com/crystaldba/postgres-mcp",
+    "repository": {
+      "url": "https://github.com/crystaldba/postgres-mcp",
+      "source": "github",
+      "id": "954215474"
+    },
+    "packages": [
+      {
+        "registryType": "pypi",
+        "identifier": "postgres-mcp",
+        "version": "0.3.0",
+        "runtimeHint": "uvx",
+        "transport": {
+          "type": "stdio"
+        },
+        "packageArguments": [
+          {
+            "type": "named",
+            "name": "--access-mode",
+            "description": "Database access mode. 'restricted' for read-only with resource limits (production), 'unrestricted' for full read/write (development).",
+            "default": "restricted",
+            "choices": ["restricted", "unrestricted"],
+            "isRequired": false
+          }
+        ],
+        "environmentVariables": [
+          {
+            "name": "DATABASE_URI",
+            "description": "PostgreSQL connection URI, composed from PG_USER, PG_PASSWORD, PG_HOST, PG_PORT, and PG_DATABASE.",
+            "isRequired": true,
+            "isSecret": true,
+            "value": "postgresql://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}",
+            "variables": {
+              "PG_USER": {
+                "description": "PostgreSQL username.",
+                "isRequired": true
+              },
+              "PG_PASSWORD": {
+                "description": "PostgreSQL password.",
+                "isRequired": true,
+                "isSecret": true
+              },
+              "PG_HOST": {
+                "description": "PostgreSQL hostname (e.g., localhost).",
+                "isRequired": true,
+                "placeholder": "localhost"
+              },
+              "PG_PORT": {
+                "description": "PostgreSQL port.",
+                "isRequired": true,
+                "format": "number",
+                "placeholder": "5432"
+              },
+              "PG_DATABASE": {
+                "description": "PostgreSQL database name.",
+                "isRequired": true,
+                "placeholder": "postgres"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "registryType": "oci",
+        "identifier": "crystaldba/postgres-mcp",
+        "registryBaseUrl": "https://docker.io",
+        "transport": {
+          "type": "stdio"
+        },
+        "packageArguments": [
+          {
+            "type": "named",
+            "name": "--access-mode",
+            "description": "Database access mode. 'restricted' for read-only with resource limits (production), 'unrestricted' for full read/write (development).",
+            "default": "restricted",
+            "choices": ["restricted", "unrestricted"],
+            "isRequired": false
+          }
+        ],
+        "environmentVariables": [
+          {
+            "name": "DATABASE_URI",
+            "description": "PostgreSQL connection URI, composed from PG_USER, PG_PASSWORD, PG_HOST, PG_PORT, and PG_DATABASE.",
+            "isRequired": true,
+            "isSecret": true,
+            "value": "postgresql://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}",
+            "variables": {
+              "PG_USER": {
+                "description": "PostgreSQL username.",
+                "isRequired": true
+              },
+              "PG_PASSWORD": {
+                "description": "PostgreSQL password.",
+                "isRequired": true,
+                "isSecret": true
+              },
+              "PG_HOST": {
+                "description": "PostgreSQL hostname (e.g., localhost).",
+                "isRequired": true,
+                "placeholder": "localhost"
+              },
+              "PG_PORT": {
+                "description": "PostgreSQL port.",
+                "isRequired": true,
+                "format": "number",
+                "placeholder": "5432"
+              },
+              "PG_DATABASE": {
+                "description": "PostgreSQL database name.",
+                "isRequired": true,
+                "placeholder": "postgres"
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 ]

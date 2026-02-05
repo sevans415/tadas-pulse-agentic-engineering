@@ -4,7 +4,7 @@ External setup required for each server in `servers.json`. Complete these steps 
 
 ---
 
-## Log Analyzer with CloudWatch Logs
+## io.github.awslabs/log-analyzer-cloudwatch
 
 **Server:** `io.github.awslabs/log-analyzer-cloudwatch`
 **Repository:** [awslabs/Log-Analyzer-with-MCP](https://github.com/awslabs/Log-Analyzer-with-MCP)
@@ -62,3 +62,52 @@ aws logs describe-log-groups --max-items 1
 ```
 
 If this returns a log group, the server will work. See the [AWS config guide](https://github.com/awslabs/Log-Analyzer-with-MCP/blob/main/docs/aws-config.md) for more details.
+
+---
+
+## io.github.crystaldba/postgres-mcp
+
+**Server:** `io.github.crystaldba/postgres-mcp`
+**Repository:** [crystaldba/postgres-mcp](https://github.com/crystaldba/postgres-mcp)
+
+### Prerequisites
+
+- **Python 3.12+** and [uv](https://docs.astral.sh/uv/getting-started/installation/) (provides the `uvx` command)
+- A **PostgreSQL** database you want to connect to
+
+### Optional PostgreSQL extensions
+
+For full functionality (index tuning and hypothetical index analysis), install these extensions on the target database:
+
+- **pg_stat_statements** — query execution statistics (`CREATE EXTENSION IF NOT EXISTS pg_stat_statements;`)
+- **hypopg** — hypothetical index simulation (`CREATE EXTENSION IF NOT EXISTS hypopg;`)
+
+These are optional; the server works without them but some analysis features will be limited.
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `PG_USER` | Yes | PostgreSQL username |
+| `PG_PASSWORD` | Yes | PostgreSQL password |
+| `PG_HOST` | Yes | PostgreSQL hostname (e.g., `localhost`) |
+| `PG_PORT` | Yes | PostgreSQL port (e.g., `5432`) |
+| `PG_DATABASE` | Yes | PostgreSQL database name (e.g., `postgres`) |
+
+These are composed into `DATABASE_URI` as `postgresql://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE`.
+
+### Access modes
+
+The `--access-mode` flag controls what the server can do:
+
+- `restricted` (default) — read-only queries with resource limits, safe for production
+- `unrestricted` — full read/write access, intended for development
+
+### Verify setup
+
+```bash
+# Confirm the database is reachable
+psql "postgresql://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE" -c "SELECT 1;"
+```
+
+If this returns a row, the server will be able to connect.
