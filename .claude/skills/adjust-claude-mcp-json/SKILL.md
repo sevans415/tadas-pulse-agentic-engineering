@@ -61,7 +61,7 @@ Every entry goes under the `mcpServers` key:
     "command": "npx",
     "args": ["-y", "@modelcontextprotocol/server-github"],
     "env": {
-      "GITHUB_PERSONAL_ACCESS_TOKEN": "${github-token}"
+      "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
     }
   }
 }
@@ -88,7 +88,7 @@ Every entry goes under the `mcpServers` key:
 - **`title`** and **`description`**: Drop these — Claude Code's `.mcp.json` does not use them.
 - **`command`**, **`args`**, **`env`**: Copy directly for stdio servers.
 - **`url`**, **`headers`**: Copy directly for remote servers.
-- **Secret interpolation**: Convert `${product-slug}` format to `${ENV_VAR_NAME}` format. Claude Code resolves env vars from the shell environment, so use the actual environment variable name (e.g., `${GITHUB_PERSONAL_ACCESS_TOKEN}` not `${github-token}`). The env var name should match the key in the `env` object or, for headers, use a descriptive `UPPER_SNAKE_CASE` name.
+- **Secret interpolation**: Keep the `${ENV_VAR_NAME}` format as-is. Claude Code resolves env vars from the shell environment. The variable name inside `${}` should always be UPPER_SNAKE_CASE matching the env var key (e.g., `${GITHUB_PERSONAL_ACCESS_TOKEN}`, `${AWS_ACCESS_KEY_ID}`). For headers, use a descriptive `UPPER_SNAKE_CASE` name.
 
 ### Transport type mapping
 

@@ -32,7 +32,7 @@ Think of it this way:
 - `server.json` = "Here's how this server *can* be configured"
 - `mcp.json` = "Here's exactly how this client *will* connect to its servers"
 
-Reference the full mcp.json specification at: https://github.com/pulsemcp/mcp-servers/blob/main/docs/MCP_JSON.md
+Reference the full mcp.json specification at: `docs/MCP_JSON.md` in this repository.
 
 ## Instructions
 
@@ -48,11 +48,11 @@ Reference the full mcp.json specification at: https://github.com/pulsemcp/mcp-se
 | server.json field | mcp.json field | Notes |
 |---|---|---|
 | `title` | `title` | Direct copy |
-| `description` | `description` | Direct copy |
+| `description` | `description` | See [Writing descriptions](#writing-descriptions) |
 | `packages[N].transport.type` | `type` | Usually `"stdio"` |
 | `packages[N].registryType` / `runtimeHint` | `command` | See command mapping below |
 | `packages[N].identifier` + `packageArguments` | `args` | See args construction below |
-| `packages[N].environmentVariables` | `env` | Only `isRequired: true` vars; secrets use `${slug}` interpolation |
+| `packages[N].environmentVariables` | `env` | Include ALL env vars as `${ENV_VAR_NAME}` templated variables — see [Environment variable handling](#environment-variable-handling) |
 
 #### Command mapping
 
@@ -78,18 +78,39 @@ For `packageArguments`, resolve them as follows:
 | server.json field | mcp.json field | Notes |
 |---|---|---|
 | `title` | `title` | From top-level server.json |
-| `description` | `description` | From top-level server.json |
+| `description` | `description` | See [Writing descriptions](#writing-descriptions) |
 | `remotes[N].type` | `type` | `"streamable-http"` or `"sse"` |
 | `remotes[N].url` | `url` | Resolve any `{variable}` templates — ask user for values |
-| `remotes[N].headers` | `headers` | Secret header values use `${slug}` interpolation |
+| `remotes[N].headers` | `headers` | Secret header values use `${ENV_VAR_NAME}` interpolation |
 
-### Secret interpolation
+### Writing descriptions
 
-- Secrets (env vars or headers with `isSecret: true`) use `${product-slug}` format
-- Slugs should be concise, lowercase, hyphenated, derived from the product/service name
-- Examples: `${github-token}`, `${sentry-auth-token}`, `${openai-api-key}`
-- Non-secret environment variables with a `default` value should use that default directly
-- Non-secret environment variables without a default should use a reasonable concrete value or ask the user
+Do NOT just copy the server.json `description` verbatim — it's often too generic (and capped at 100 chars). Instead, write a description that helps the user instantly understand **when to reach for this server** and **what it can actually do**, especially vs. similar servers.
+
+A good description should answer: "If I'm scanning a list of 20 servers, what tells me *this* is the one I need right now?"
+
+Guidelines:
+- **Lead with the specific capability**, not the product name (the `title` already has that)
+- **Name the concrete actions/tools** the server provides (e.g., "search logs, find error patterns, correlate across services" — not "provides access to logs")
+- **Include the scope/platform** when it differentiates (e.g., "CloudWatch Logs" not just "logs")
+- **Mention what makes it unique** vs. similar servers (e.g., "cross-service log correlation" is a differentiator vs. a generic log reader)
+- Keep it to 1-2 sentences
+
+Examples:
+- Bad: `"GitHub API integration"` — too vague, could be anything
+- Good: `"Create/manage issues, PRs, branches, and files in GitHub repos. Search code, review diffs, and merge PRs."`
+- Bad: `"Provides access to AWS CloudWatch Logs"` — doesn't say what you can do with them
+- Good: `"Search and filter CloudWatch Logs, find error patterns, and correlate log events across multiple AWS services."`
+
+### Environment variable handling
+
+**Bias towards being explicit.** Do not assume the user has CLIs, credentials, or cloud profiles pre-configured. Include ALL environment variables from the server.json — both required and optional — as `${ENV_VAR_NAME}` templated variables in the `env` block. This makes the configuration self-documenting and ensures the user knows exactly what needs to be set up.
+
+- **All env vars** get included in `env`, using `${ENV_VAR_NAME}` interpolation — the variable name inside `${}` matches the env var key exactly (UPPER_SNAKE_CASE)
+- **Secrets** (`isSecret: true`) always use `${ENV_VAR_NAME}` (e.g., `${AWS_SECRET_ACCESS_KEY}`)
+- **Non-secrets** also use `${ENV_VAR_NAME}` by default (e.g., `${AWS_REGION}`, `${AWS_PROFILE}`) — don't hardcode values or silently omit them
+- **Vars with a `default`** may use the default value directly only if the default is universally sensible; otherwise use `${ENV_VAR_NAME}`
+- Examples: `${GITHUB_PERSONAL_ACCESS_TOKEN}`, `${AWS_ACCESS_KEY_ID}`, `${AWS_REGION}`, `${SENTRY_AUTH_TOKEN}`
 
 ### Applying user constraints from `$ARGUMENTS`
 
@@ -114,7 +135,7 @@ The root object is a map of server names to configurations. This is the format d
     "command": "npx",
     "args": ["-y", "@scope/package-name"],
     "env": {
-      "API_KEY": "${service-api-key}"
+      "API_KEY": "${API_KEY}"
     }
   }
 }
@@ -131,7 +152,7 @@ Wraps servers under an `mcpServers` key. Use this when the user is configuring C
       "command": "npx",
       "args": ["-y", "@scope/package-name"],
       "env": {
-        "API_KEY": "${service-api-key}"
+        "API_KEY": "${API_KEY}"
       }
     }
   }
@@ -170,12 +191,12 @@ Produces:
 {
   "github": {
     "title": "GitHub",
-    "description": "GitHub API integration",
+    "description": "Create/manage issues, PRs, branches, and files in GitHub repos. Search code, review diffs, and merge PRs.",
     "type": "stdio",
     "command": "npx",
     "args": ["-y", "@modelcontextprotocol/server-github"],
     "env": {
-      "GITHUB_PERSONAL_ACCESS_TOKEN": "${github-token}"
+      "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
     }
   }
 }
@@ -211,7 +232,7 @@ Produces:
     "command": "uvx",
     "args": ["weather-mcp-server"],
     "env": {
-      "WEATHER_API_KEY": "${weather-api-key}",
+      "WEATHER_API_KEY": "${WEATHER_API_KEY}",
       "WEATHER_UNITS": "celsius"
     }
   }
@@ -245,7 +266,7 @@ Produces:
     "type": "streamable-http",
     "url": "https://mcp.analytics.example.com/mcp",
     "headers": {
-      "Authorization": "Bearer ${analytics-token}"
+      "Authorization": "Bearer ${ANALYTICS_AUTH_TOKEN}"
     }
   }
 }
@@ -257,7 +278,7 @@ Produces:
 {
   "linear": {
     "title": "Linear",
-    "description": "Linear project management integration",
+    "description": "Create, update, and search issues, projects, and cycles in Linear. Manage labels, assignees, and workflow states.",
     "type": "streamable-http",
     "url": "https://mcp.linear.app/mcp"
   }
@@ -266,15 +287,24 @@ Produces:
 
 OAuth is handled out-of-band by the MCP client via well-known metadata endpoints. No explicit auth config is needed in the mcp.json.
 
-## Validation Checklist
+## Validation
 
-Before writing the file, verify:
+After writing the mcp.json file, validate it against the schema at `docs/mcp.schema.json` in this repository:
 
-- [ ] Every entry has a `type` field (`stdio`, `sse`, or `streamable-http`)
-- [ ] `stdio` entries have `command` and do NOT have `url` or `headers`
-- [ ] `sse` / `streamable-http` entries have `url` and do NOT have `command` or `args`
-- [ ] Secret values use `${slug}` interpolation, not literal values
-- [ ] Server name keys match `^[a-zA-Z0-9_[\]-]+$` (alphanumeric, hyphens, underscores, brackets)
+```bash
+# Install validator if needed (check first)
+which ajv || npm install -g ajv-cli
+
+# Validate the generated file against the schema
+ajv validate -s docs/mcp.schema.json -d <path-to-generated-mcp.json> --spec=draft7 --strict=false
+```
+
+If validation fails, read the errors, fix the generated file, and re-validate until it passes. Do not consider the task complete until validation succeeds.
+
+### Additional checks (not covered by schema)
+
+Before writing the file, also verify:
+
+- [ ] Secret values use `${ENV_VAR_NAME}` interpolation, not literal values
 - [ ] Non-secret env vars with defaults use the default value directly
 - [ ] User constraints from `$ARGUMENTS` have been applied and noted
-- [ ] The file is valid JSON

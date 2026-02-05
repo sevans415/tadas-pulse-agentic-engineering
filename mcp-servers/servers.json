@@ -1,0 +1,89 @@
+[
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.awslabs/log-analyzer-cloudwatch",
+    "title": "Log Analyzer with CloudWatch Logs",
+    "description": "Access AWS CloudWatch Logs for searching, analyzing, and correlating logs across services.",
+    "version": "0.1.0",
+    "websiteUrl": "https://github.com/awslabs/Log-Analyzer-with-MCP",
+    "repository": {
+      "url": "https://github.com/awslabs/Log-Analyzer-with-MCP",
+      "source": "github",
+      "id": "awslabs/Log-Analyzer-with-MCP"
+    },
+    "packages": [
+      {
+        "registryType": "pypi",
+        "identifier": "Log-Analyzer-with-MCP",
+        "runtimeHint": "uvx",
+        "transport": {
+          "type": "stdio"
+        },
+        "packageArguments": [
+          {
+            "type": "positional",
+            "value": "--from",
+            "description": "Specify the source for the uvx package",
+            "isRequired": true
+          },
+          {
+            "type": "positional",
+            "value": "git+https://github.com/awslabs/Log-Analyzer-with-MCP",
+            "description": "Git repository URL for the package source",
+            "isRequired": true
+          },
+          {
+            "type": "positional",
+            "value": "cw-mcp-server",
+            "description": "Entry point command to start the MCP server",
+            "isRequired": true
+          },
+          {
+            "type": "named",
+            "name": "--profile",
+            "description": "AWS profile name to use for credentials. Defaults to the default AWS profile if not specified.",
+            "isRequired": false,
+            "valueHint": "aws-profile-name"
+          },
+          {
+            "type": "named",
+            "name": "--region",
+            "description": "AWS region for CloudWatch Logs API calls (e.g., us-east-1, eu-west-1).",
+            "isRequired": false,
+            "valueHint": "aws-region"
+          }
+        ],
+        "environmentVariables": [
+          {
+            "name": "AWS_PROFILE",
+            "description": "AWS profile to use for authentication. Alternative to the --profile argument.",
+            "isRequired": false
+          },
+          {
+            "name": "AWS_DEFAULT_REGION",
+            "description": "AWS default region for API calls (e.g., us-east-1). Used by boto3. Alternative to the --region argument.",
+            "isRequired": false
+          },
+          {
+            "name": "AWS_ACCESS_KEY_ID",
+            "description": "AWS access key for programmatic authentication.",
+            "isRequired": false,
+            "isSecret": true
+          },
+          {
+            "name": "AWS_SECRET_ACCESS_KEY",
+            "description": "AWS secret access key for programmatic authentication.",
+            "isRequired": false,
+            "isSecret": true
+          },
+          {
+            "name": "AWS_SESSION_TOKEN",
+            "description": "AWS session token for temporary credential authentication.",
+            "isRequired": false,
+            "isSecret": true
+          }
+        ]
+      }
+    ]
+  }
+]

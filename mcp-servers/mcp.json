@@ -1,0 +1,18 @@
+{
+  "cw-log-analyzer": {
+    "title": "Log Analyzer with CloudWatch Logs",
+    "description": "Search and filter CloudWatch Logs, find error patterns, and correlate log events across multiple AWS services.",
+    "type": "stdio",
+    "command": "uvx",
+    "args": [
+      "--from",
+      "git+https://github.com/awslabs/Log-Analyzer-with-MCP",
+      "cw-mcp-server"
+    ],
+    "env": {
+      "AWS_DEFAULT_REGION": "us-east-1",
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}"
+    }
+  }
+}
