@@ -323,3 +323,163 @@ aws ecs list-clusters --region us-east-1
 ```
 
 If both commands succeed, the server will work.
+
+---
+
+## io.github.pulsemcp/dynamodb
+
+**Server:** `io.github.pulsemcp/dynamodb`
+**Repository:** [pulsemcp/mcp-servers](https://github.com/pulsemcp/mcp-servers) (subfolder `experimental/dynamodb`)
+**Status:** Experimental — npm package `dynamodb-mcp-server` not yet published.
+
+### Prerequisites
+
+- **Node.js 18+** and npm (provides the `npx` command)
+- An **AWS account** with DynamoDB access
+
+### AWS credentials setup
+
+Choose one approach:
+
+1. **AWS CLI profiles** (recommended for local dev):
+   - Run `aws configure` or `aws configure sso` to set up a profile
+   - Set `AWS_PROFILE` to the profile name
+
+2. **Static credentials** (for CI):
+   - Set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and optionally `AWS_SESSION_TOKEN`
+
+### IAM permissions
+
+The credentials need DynamoDB access. At minimum:
+
+- **Readonly tools**: `dynamodb:ListTables`, `dynamodb:DescribeTable`, `dynamodb:GetItem`, `dynamodb:Query`, `dynamodb:Scan`, `dynamodb:BatchGetItem`
+- **ReadWrite tools**: above + `dynamodb:PutItem`, `dynamodb:UpdateItem`, `dynamodb:DeleteItem`, `dynamodb:BatchWriteItem`
+- **Admin tools**: above + `dynamodb:CreateTable`, `dynamodb:DeleteTable`, `dynamodb:UpdateTable`
+
+The managed policy `AmazonDynamoDBFullAccess` covers all of these.
+
+### Tool access control
+
+Fine-grained control over which tools are exposed:
+
+| Variable | Description |
+|---|---|
+| `DYNAMODB_ENABLED_TOOL_GROUPS` | Comma-separated groups: `readonly`, `readwrite`, `admin` |
+| `DYNAMODB_ENABLED_TOOLS` | Whitelist specific tools (overrides groups and disabled) |
+| `DYNAMODB_DISABLED_TOOLS` | Blacklist specific tools |
+
+Priority: `ENABLED_TOOLS` > `DISABLED_TOOLS` > `ENABLED_TOOL_GROUPS`
+
+### Table access control
+
+Restrict which tables the server can access:
+
+| Variable | Description |
+|---|---|
+| `DYNAMODB_ALLOWED_TABLES` | Comma-separated list of table names. If unset, all tables accessible. |
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `AWS_REGION` | No | AWS region (default: `us-east-1`) |
+| `AWS_ACCESS_KEY_ID` | No | Access key for static credential auth |
+| `AWS_SECRET_ACCESS_KEY` | No | Secret key for static credential auth |
+| `AWS_SESSION_TOKEN` | No | Session token for temporary credentials |
+| `AWS_PROFILE` | No | AWS CLI profile name |
+| `DYNAMODB_ENDPOINT` | No | Custom endpoint URL (for DynamoDB Local / LocalStack) |
+| `DYNAMODB_ENABLED_TOOL_GROUPS` | No | Tool groups to enable |
+| `DYNAMODB_ENABLED_TOOLS` | No | Specific tools to whitelist |
+| `DYNAMODB_DISABLED_TOOLS` | No | Specific tools to blacklist |
+| `DYNAMODB_ALLOWED_TABLES` | No | Tables to restrict access to |
+| `SKIP_HEALTH_CHECKS` | No | Skip startup connectivity check (default: `false`) |
+
+At least one authentication method must be configured.
+
+### Verify setup
+
+```bash
+# Confirm AWS credentials are working
+aws sts get-caller-identity
+
+# Confirm DynamoDB access
+aws dynamodb list-tables --region us-east-1
+```
+
+If both commands succeed, the server will work.
+
+---
+
+## io.github.pulsemcp/s3
+
+**Server:** `io.github.pulsemcp/s3`
+**Repository:** [pulsemcp/mcp-servers](https://github.com/pulsemcp/mcp-servers) (subfolder `experimental/s3`)
+**Status:** Experimental — npm package `s3-aws-mcp-server` not yet published.
+
+### Prerequisites
+
+- **Node.js 18+** and npm (provides the `npx` command)
+- An **AWS account** with S3 access
+
+### AWS credentials setup
+
+Choose one approach:
+
+1. **AWS CLI profiles** (recommended for local dev):
+   - Run `aws configure` or `aws configure sso` to set up a profile
+   - Set `AWS_PROFILE` to the profile name
+
+2. **Static credentials** (for CI):
+   - Set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and optionally `AWS_SESSION_TOKEN`
+
+### IAM permissions
+
+The credentials need S3 access. At minimum:
+
+- **Readonly tools**: `s3:ListAllMyBuckets`, `s3:ListBucket`, `s3:GetObject`, `s3:HeadBucket`
+- **ReadWrite tools**: above + `s3:PutObject`, `s3:DeleteObject`, `s3:CreateBucket`, `s3:DeleteBucket`
+
+The managed policy `AmazonS3FullAccess` covers all of these.
+
+### Tool access control
+
+Fine-grained control over which tools are exposed:
+
+| Variable | Description |
+|---|---|
+| `S3_ENABLED_TOOLGROUPS` | Comma-separated groups: `readonly`, `readwrite` |
+| `S3_ENABLED_TOOLS` | Whitelist specific tools (overrides groups) |
+| `S3_DISABLED_TOOLS` | Blacklist specific tools |
+
+### Single-bucket mode
+
+Set `S3_BUCKET` to constrain all operations to one bucket. When set:
+- Bucket-level tools (`list_buckets`, `create_bucket`, `delete_bucket`, `head_bucket`) are hidden
+- Object-level tools automatically inject the bucket parameter
+- Startup health check validates the constrained bucket exists
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `AWS_ACCESS_KEY_ID` | Yes | AWS access key |
+| `AWS_SECRET_ACCESS_KEY` | Yes | AWS secret key |
+| `AWS_REGION` | No | AWS region (default: `us-east-1`) |
+| `AWS_ENDPOINT_URL` | No | Custom S3-compatible endpoint (MinIO, LocalStack) |
+| `S3_BUCKET` | No | Constrain to a single bucket |
+| `S3_ENABLED_TOOLGROUPS` | No | Tool groups to enable |
+| `S3_ENABLED_TOOLS` | No | Specific tools to whitelist |
+| `S3_DISABLED_TOOLS` | No | Specific tools to blacklist |
+| `SKIP_HEALTH_CHECKS` | No | Skip startup validation (default: `false`) |
+
+### Verify setup
+
+```bash
+# Confirm AWS credentials are working
+aws sts get-caller-identity
+
+# Confirm S3 access
+aws s3 ls
+```
+
+If both commands succeed, the server will work.

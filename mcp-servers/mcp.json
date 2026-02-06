@@ -105,5 +105,63 @@
       "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
       "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}"
     }
+  },
+  "pulsemcp-dynamodb-ro": {
+    "title": "DynamoDB (Read-Only)",
+    "description": "Use when you need to inspect DynamoDB tables and data without modifying anything. List and describe tables, get items, query, scan, and batch get.",
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "dynamodb-mcp-server@0.1.0"],
+    "env": {
+      "AWS_REGION": "us-east-1",
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+      "DYNAMODB_ENABLED_TOOL_GROUPS": "readonly"
+    }
+  },
+  "pulsemcp-dynamodb-rw": {
+    "title": "DynamoDB (Read-Write)",
+    "description": "Use when you need to read and write DynamoDB items. List/describe tables, get/put/update/delete items, query, scan, and batch operations. No admin (create/delete table) access.",
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "dynamodb-mcp-server@0.1.0"],
+    "env": {
+      "AWS_REGION": "us-east-1",
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+      "DYNAMODB_ENABLED_TOOL_GROUPS": "readonly,readwrite"
+    }
+  },
+  "pulsemcp-s3-ro": {
+    "title": "AWS S3 (Read-Only)",
+    "description": "Use when you need to browse or read S3 data. List buckets and objects, download object contents, and check bucket existence. Read-only — no writes, deletes, or bucket creation.",
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "s3-aws-mcp-server@0.0.0"
+    ],
+    "env": {
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+      "AWS_REGION": "us-east-1",
+      "S3_ENABLED_TOOLGROUPS": "readonly"
+    }
+  },
+  "pulsemcp-s3-rw": {
+    "title": "AWS S3 (Read-Write)",
+    "description": "Use when you need full S3 access. List, read, upload, copy, and delete objects. Create and delete buckets. Use S3_BUCKET to constrain to a single bucket.",
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "s3-aws-mcp-server@0.0.0"
+    ],
+    "env": {
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+      "AWS_REGION": "us-east-1",
+      "S3_ENABLED_TOOLGROUPS": "readonly,readwrite"
+    }
   }
 }
