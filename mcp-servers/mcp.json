@@ -187,5 +187,24 @@
       "--headless",
       "--no-usage-statistics"
     ]
+  },
+  "neon-remote-ro": {
+    "title": "Neon Postgres (Remote, Read-Only)",
+    "description": "Use when you need to safely inspect Neon Postgres databases. Run SQL queries, list projects and branches, check schemas, and analyze performance without risk of accidental modifications.",
+    "type": "streamable-http",
+    "url": "https://mcp.neon.tech/mcp",
+    "headers": {
+      "Authorization": "Bearer ${NEON_API_KEY}",
+      "x-read-only": "true"
+    }
+  },
+  "neon-remote-rw": {
+    "title": "Neon Postgres (Remote, Read-Write)",
+    "description": "Use when you need to manage Neon Postgres databases. Create and manage projects, branches, and databases, run SQL queries, and perform branch-based migrations.",
+    "type": "streamable-http",
+    "url": "https://mcp.neon.tech/mcp",
+    "headers": {
+      "Authorization": "Bearer ${NEON_API_KEY}"
+    }
   }
 }
