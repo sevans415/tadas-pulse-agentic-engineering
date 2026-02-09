@@ -969,5 +969,48 @@
         ]
       }
     ]
+  },
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "com.langfuse/langfuse",
+    "title": "Langfuse",
+    "description": "Manage Langfuse prompts: list, fetch, create, and label prompt versions via the Langfuse API.",
+    "version": "3.152.0",
+    "websiteUrl": "https://langfuse.com/docs/api-and-data-platform/features/mcp-server",
+    "repository": {
+      "url": "https://github.com/langfuse/langfuse",
+      "source": "github",
+      "id": "642497346"
+    },
+    "remotes": [
+      {
+        "type": "streamable-http",
+        "url": "https://{langfuse_host}/api/public/mcp",
+        "headers": [
+          {
+            "name": "Authorization",
+            "description": "Basic auth header using base64-encoded Langfuse API key pair (pk-lf-...:sk-lf-...).",
+            "isRequired": true,
+            "isSecret": true,
+            "value": "Basic {langfuse_api_credentials}",
+            "variables": {
+              "langfuse_api_credentials": {
+                "description": "Base64-encoded Langfuse API key pair in the format pk-lf-...:sk-lf-... (e.g., run: echo -n 'pk-lf-XXX:sk-lf-XXX' | base64).",
+                "isRequired": true,
+                "isSecret": true
+              }
+            }
+          }
+        ],
+        "variables": {
+          "langfuse_host": {
+            "description": "Langfuse instance hostname. Use cloud.langfuse.com (EU), us.cloud.langfuse.com (US), hipaa.cloud.langfuse.com (HIPAA), or your self-hosted domain.",
+            "default": "cloud.langfuse.com",
+            "isRequired": true,
+            "placeholder": "cloud.langfuse.com"
+          }
+        }
+      }
+    ]
   }
 ]

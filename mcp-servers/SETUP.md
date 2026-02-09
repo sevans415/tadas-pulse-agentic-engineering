@@ -600,3 +600,62 @@ curl -s -H "Authorization: Bearer $NEON_API_KEY" https://console.neon.tech/api/v
 ```
 
 If the curl command returns project data, the API key is valid and the server will work.
+
+---
+
+## com.langfuse/langfuse
+
+**Server:** `com.langfuse/langfuse`
+**Docs:** [Langfuse MCP Server](https://langfuse.com/docs/api-and-data-platform/features/mcp-server)
+**Repository:** [langfuse/langfuse](https://github.com/langfuse/langfuse)
+
+### How it works
+
+The Langfuse MCP server is a remote cloud-hosted service. You connect to it directly via streamable HTTP at `https://<host>/api/public/mcp`, authenticating with a base64-encoded API key pair in the `Authorization` header.
+
+### Prerequisites
+
+- A **Langfuse** account (cloud or self-hosted)
+- A **project-scoped API key pair** (public key `pk-lf-...` and secret key `sk-lf-...`)
+
+### API key setup
+
+1. Log in to your Langfuse instance
+2. Go to **Settings > API Keys**
+3. Create a new API key pair — you'll get a public key (`pk-lf-...`) and secret key (`sk-lf-...`)
+4. Base64-encode the key pair:
+   ```bash
+   echo -n 'pk-lf-YOUR_PUBLIC_KEY:sk-lf-YOUR_SECRET_KEY' | base64
+   ```
+5. Use the base64 output as `LANGFUSE_API_CREDENTIALS`
+
+### Endpoints by region
+
+| Region | Host |
+|---|---|
+| EU (default) | `cloud.langfuse.com` |
+| US | `us.cloud.langfuse.com` |
+| HIPAA | `hipaa.cloud.langfuse.com` |
+| Self-hosted | Your domain (e.g., `langfuse.example.com`) |
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `LANGFUSE_API_CREDENTIALS` | Yes | Base64-encoded API key pair (`pk-lf-...:sk-lf-...`) |
+| `LANGFUSE_HOST` | No | Langfuse hostname (default: `cloud.langfuse.com`) |
+
+### Changing regions
+
+The `mcp.json` entry defaults to the EU endpoint (`cloud.langfuse.com`). To use a different region or a self-hosted instance, change the `url` in `mcp-servers/mcp.json` to match your host (see the table above).
+
+### Verify setup
+
+```bash
+# Confirm API credentials are valid
+curl -s -o /dev/null -w "%{http_code}" \
+  -H "Authorization: Basic $LANGFUSE_API_CREDENTIALS" \
+  "https://${LANGFUSE_HOST:-cloud.langfuse.com}/api/public/mcp"
+```
+
+A `200` or `405` response confirms the credentials are valid and the endpoint is reachable.
