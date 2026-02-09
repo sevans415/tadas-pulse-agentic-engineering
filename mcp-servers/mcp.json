@@ -187,5 +187,14 @@
       "--headless",
       "--no-usage-statistics"
     ]
+  },
+  "langfuse": {
+    "title": "Langfuse",
+    "description": "Use when you need to manage LLM prompts in Langfuse. List, fetch, create, and update prompt versions and labels. Supports text and chat prompt formats.",
+    "type": "streamable-http",
+    "url": "https://${LANGFUSE_HOST:-cloud.langfuse.com}/api/public/mcp",
+    "headers": {
+      "Authorization": "Basic ${LANGFUSE_API_CREDENTIALS}"
+    }
   }
 }
