@@ -877,5 +877,106 @@
         ]
       }
     ]
+  },
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.neondatabase/mcp-server-neon",
+    "title": "Neon Postgres",
+    "description": "Manage Neon Postgres projects, branches, databases, and run SQL queries via natural language.",
+    "version": "0.6.5",
+    "websiteUrl": "https://neon.com/docs/ai/neon-mcp-server",
+    "repository": {
+      "url": "https://github.com/neondatabase/mcp-server-neon",
+      "source": "github",
+      "id": "896203400"
+    },
+    "packages": [
+      {
+        "registryType": "npm",
+        "registryBaseUrl": "https://registry.npmjs.org",
+        "identifier": "@neondatabase/mcp-server-neon",
+        "version": "0.6.5",
+        "runtimeHint": "npx",
+        "transport": {
+          "type": "stdio"
+        },
+        "packageArguments": [
+          {
+            "type": "positional",
+            "value": "start",
+            "description": "Start the MCP server in stdio mode"
+          },
+          {
+            "type": "positional",
+            "valueHint": "neon_api_key",
+            "description": "Neon API key for authenticating API requests.",
+            "isRequired": true,
+            "isSecret": true
+          }
+        ],
+        "environmentVariables": [
+          {
+            "name": "NEON_API_KEY",
+            "description": "Neon API key for authenticating API requests. Alternative to passing the key as a CLI argument.",
+            "isRequired": false,
+            "isSecret": true
+          }
+        ]
+      }
+    ],
+    "remotes": [
+      {
+        "type": "streamable-http",
+        "url": "https://mcp.neon.tech/mcp",
+        "headers": [
+          {
+            "name": "Authorization",
+            "description": "Bearer token for API key authentication. Required when not using OAuth.",
+            "isRequired": false,
+            "isSecret": true,
+            "value": "Bearer {neon_api_key}",
+            "variables": {
+              "neon_api_key": {
+                "description": "Neon API key.",
+                "isRequired": true,
+                "isSecret": true
+              }
+            }
+          },
+          {
+            "name": "x-read-only",
+            "description": "Set to 'true' to restrict the server to read-only operations for safe querying.",
+            "isRequired": false,
+            "default": "false"
+          }
+        ]
+      },
+      {
+        "type": "sse",
+        "url": "https://mcp.neon.tech/sse",
+        "headers": [
+          {
+            "name": "Authorization",
+            "description": "Bearer token for API key authentication. Required when not using OAuth.",
+            "isRequired": false,
+            "isSecret": true,
+            "value": "Bearer {neon_api_key}",
+            "variables": {
+              "neon_api_key": {
+                "description": "Neon API key.",
+                "isRequired": true,
+                "isSecret": true
+              }
+            }
+          },
+          {
+            "name": "x-read-only",
+            "description": "Set to 'true' to restrict the server to read-only operations for safe querying.",
+            "isRequired": false,
+            "default": "false"
+          }
+        ]
+      }
+    ]
   }
 ]

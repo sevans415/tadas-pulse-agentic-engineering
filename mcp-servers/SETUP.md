@@ -549,3 +549,54 @@ google-chrome --version || chromium-browser --version
 ```
 
 If both commands return versions, the server will work.
+
+---
+
+## io.github.neondatabase/mcp-server-neon
+
+**Server:** `io.github.neondatabase/mcp-server-neon`
+**Repository:** [neondatabase/mcp-server-neon](https://github.com/neondatabase/mcp-server-neon)
+**Package:** [`@neondatabase/mcp-server-neon`](https://www.npmjs.com/package/@neondatabase/mcp-server-neon) (npm)
+**Docs:** [Neon MCP Server](https://neon.com/docs/ai/neon-mcp-server)
+
+### Prerequisites
+
+- **Node.js 18+** and npm (provides the `npx` command) — only needed for the local stdio package
+- A **Neon account** at [neon.tech](https://neon.tech)
+
+### Connection modes
+
+The Neon MCP server can be used in two ways:
+
+1. **Remote (recommended)** — connect to the hosted server at `https://mcp.neon.tech/mcp` via Streamable HTTP (or `https://mcp.neon.tech/sse` via SSE). Supports OAuth browser-based authorization or API key auth via the `Authorization` header.
+
+2. **Local** — run the npm package `@neondatabase/mcp-server-neon` locally via `npx`. Requires a Neon API key passed as a CLI argument or via `NEON_API_KEY`.
+
+### API key setup
+
+1. Log in to the [Neon Console](https://console.neon.tech)
+2. Go to **Account Settings > API Keys**
+3. Click **Generate new API key**, copy the value
+4. Set it as `NEON_API_KEY` in your environment or pass it directly to the CLI
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEON_API_KEY` | Yes (local) / No (remote with OAuth) | Neon API key for authentication |
+
+### Read-only mode
+
+Add the `x-read-only: true` header (remote) to restrict the server to safe, read-only operations. This is useful for production environments where you want to prevent accidental modifications.
+
+### Verify setup
+
+```bash
+# Confirm Node.js is available (for local mode)
+node --version  # should be v18 or newer
+
+# Confirm your API key works
+curl -s -H "Authorization: Bearer $NEON_API_KEY" https://console.neon.tech/api/v2/projects | head -c 200
+```
+
+If the curl command returns project data, the API key is valid and the server will work.
