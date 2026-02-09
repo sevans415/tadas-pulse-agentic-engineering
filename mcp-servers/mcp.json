@@ -188,18 +188,6 @@
       "--no-usage-statistics"
     ]
   },
-  "neon": {
-    "title": "Neon Postgres",
-    "description": "Use when you need to manage Neon Postgres databases. Create and manage projects, branches, and databases, run SQL queries, and perform branch-based migrations.",
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "@neondatabase/mcp-server-neon@0.6.5",
-      "start",
-      "${NEON_API_KEY}"
-    ]
-  },
   "neon-remote-ro": {
     "title": "Neon Postgres (Remote, Read-Only)",
     "description": "Use when you need to safely inspect Neon Postgres databases. Run SQL queries, list projects and branches, check schemas, and analyze performance without risk of accidental modifications.",
