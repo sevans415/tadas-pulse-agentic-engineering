@@ -698,7 +698,7 @@
   },
   {
     "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
-    "name": "io.github.ChromeDevTools/chrome-devtools-mcp",
+    "name": "io.github.chromedevtools/chrome-devtools-mcp",
     "title": "Chrome DevTools",
     "description": "Chrome browser control via DevTools for web automation, debugging, and performance analysis.",
     "version": "0.16.0",
@@ -826,6 +826,28 @@
             "name": "--no-performance-crux",
             "description": "Disable sending URLs to Google CrUX API for field performance data.",
             "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--accept-insecure-certs",
+            "description": "Accept insecure or self-signed TLS certificates.",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--chrome-arg",
+            "description": "Extra argument to pass to the Chrome process. Can be repeated.",
+            "isRequired": false,
+            "isRepeated": true,
+            "valueHint": "chrome-flag"
+          },
+          {
+            "type": "named",
+            "name": "--log-file",
+            "description": "Path to a log file for server output.",
+            "isRequired": false,
+            "format": "filepath",
+            "valueHint": "log-path"
           }
         ],
         "environmentVariables": [

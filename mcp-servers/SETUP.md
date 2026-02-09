@@ -486,9 +486,9 @@ If both commands succeed, the server will work.
 
 ---
 
-## io.github.ChromeDevTools/chrome-devtools-mcp
+## io.github.chromedevtools/chrome-devtools-mcp
 
-**Server:** `io.github.ChromeDevTools/chrome-devtools-mcp`
+**Server:** `io.github.chromedevtools/chrome-devtools-mcp`
 **Repository:** [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp)
 **Package:** [`chrome-devtools-mcp`](https://www.npmjs.com/package/chrome-devtools-mcp) (npm)
 
