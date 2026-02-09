@@ -10,6 +10,20 @@ user-invocable: true
 
 # Initial PR Review
 
+## Sequencing Checklist
+
+- [ ] Verify prerequisites (`gh auth status`, PR is accessible)
+- [ ] Gather PR context (`gh pr view`, `gh pr diff`)
+- [ ] Review: Correctness
+- [ ] Review: Security
+- [ ] Review: Breaking changes
+- [ ] Review: Tests
+- [ ] Review: Naming and clarity
+- [ ] Review: Complexity and scope
+- [ ] Review: Operational impact
+- [ ] Write the review (Summary, Issues, Suggestions, Questions)
+- [ ] Post the review to GitHub (only if explicitly requested)
+
 Perform a structured first-pass review of a pull request, checking for the things the team has agreed matter most. This is not a nitpick pass — it's a "catch real problems early" pass.
 
 ## Prerequisites

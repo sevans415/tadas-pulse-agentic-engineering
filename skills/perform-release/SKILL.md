@@ -10,6 +10,17 @@ user-invocable: true
 
 # Perform Release
 
+## Sequencing Checklist
+
+- [ ] Verify prerequisites (`gh`, AWS credentials, MCP servers, deployment workflow)
+- [ ] Pre-flight checks (confirm ref, verify CI is green, surface recent merged PRs)
+- [ ] Trigger the deployment workflow
+- [ ] Monitor the GitHub Actions workflow until it completes
+- [ ] Monitor the ECS deployment (task health, service events, desired vs running count)
+- [ ] Verify the release is live (health check, application logs, smoke tests, browser check)
+- [ ] If verification fails, initiate rollback (see Rollback section below)
+- [ ] Write and share the post-release report
+
 Trigger a production deployment workflow, monitor it through the ECS rollout, and verify the release is live and healthy. When something goes wrong, use the available MCP servers to diagnose — don't just report that it failed.
 
 ## Prerequisites

@@ -7,6 +7,18 @@ argument-hint: [constraints e.g. "read only tools", "no env vars"]
 
 # create-mcp-json
 
+## Sequencing Checklist
+
+- [ ] Confirm a `server.json` is already in context (if not, ask user or suggest `/create-server-json`)
+- [ ] Read the `server.json` and identify all `packages` and `remotes` entries
+- [ ] Apply any user constraints from `$ARGUMENTS`
+- [ ] Generate one mcp.json entry per `packages` item and one per `remotes` item
+- [ ] Write descriptions that explain **when to reach for this server** (not just copy server.json)
+- [ ] Pin all packages to specific versions (never `@latest`)
+- [ ] Present the result and ask the user which output format they want
+- [ ] Validate the generated file against `docs/mcp.schema.json` using `ajv`
+- [ ] Fix any validation errors and re-validate until it passes
+
 Generate a ready-to-use `mcp.json` client configuration from an MCP server's `server.json`.
 
 The user provided this context about the configuration they want:

@@ -12,6 +12,19 @@ user-invocable: true
 
 # Test in Staging
 
+## Sequencing Checklist
+
+- [ ] Verify prerequisites (`gh`, staging workflow, browser automation MCP, staging URL)
+- [ ] Deploy to staging and wait for the workflow to complete
+- [ ] Verify: Smoke test — app is up (health endpoint returns 200)
+- [ ] Verify: Changed endpoints and pages respond correctly
+- [ ] Verify: Auth and permissions (if applicable)
+- [ ] Verify: Error handling (malformed inputs return clear errors)
+- [ ] Verify: Data integrity (if writes are involved)
+- [ ] Verify: Cross-feature regression (adjacent flows still work)
+- [ ] Report results (passed, fixed during verification, not applicable)
+- [ ] Clean up staging environment (if needed)
+
 Deploy the current branch to staging and run through verification steps to confirm the changes work in a real environment. When a check fails, fix the issue, redeploy, and re-verify — don't just report the failure.
 
 ## Prerequisites
