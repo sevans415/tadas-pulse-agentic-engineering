@@ -163,5 +163,29 @@
       "AWS_REGION": "us-east-1",
       "S3_ENABLED_TOOLGROUPS": "readonly,readwrite"
     }
+  },
+  "chrome-devtools-remote": {
+    "title": "Chrome DevTools (Remote)",
+    "description": "Use when you need to inspect or debug a page already open in Chrome. Connects to a running Chrome instance via --remote-debugging-port. Take screenshots, inspect network requests, read console logs, run scripts, and profile performance.",
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "chrome-devtools-mcp@0.16.0",
+      "--autoConnect",
+      "--no-usage-statistics"
+    ]
+  },
+  "chrome-devtools-headless": {
+    "title": "Chrome DevTools (Headless)",
+    "description": "Use when you need a standalone headless Chrome for automated browsing, screenshots, network analysis, and performance profiling. Launches its own Chrome instance with no visible window.",
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "chrome-devtools-mcp@0.16.0",
+      "--headless",
+      "--no-usage-statistics"
+    ]
   }
 }

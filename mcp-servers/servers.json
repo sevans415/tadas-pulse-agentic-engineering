@@ -695,5 +695,187 @@
         ]
       }
     ]
+  },
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.chromedevtools/chrome-devtools-mcp",
+    "title": "Chrome DevTools",
+    "description": "Chrome browser control via DevTools for web automation, debugging, and performance analysis.",
+    "version": "0.16.0",
+    "websiteUrl": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+    "repository": {
+      "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "source": "github",
+      "id": "1054793726"
+    },
+    "packages": [
+      {
+        "registryType": "npm",
+        "identifier": "chrome-devtools-mcp",
+        "version": "0.16.0",
+        "runtimeHint": "npx",
+        "transport": {
+          "type": "stdio"
+        },
+        "packageArguments": [
+          {
+            "type": "named",
+            "name": "--headless",
+            "description": "Run Chrome in headless mode (no visible browser window).",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--browserUrl",
+            "description": "URL of a running debuggable Chrome instance to connect to (e.g., http://localhost:9222).",
+            "isRequired": false,
+            "valueHint": "url"
+          },
+          {
+            "type": "named",
+            "name": "--wsEndpoint",
+            "description": "WebSocket endpoint URL for connecting to a Chrome instance.",
+            "isRequired": false,
+            "valueHint": "ws-url"
+          },
+          {
+            "type": "named",
+            "name": "--wsHeaders",
+            "description": "Custom headers for WebSocket connection as a JSON string.",
+            "isRequired": false,
+            "valueHint": "json-headers"
+          },
+          {
+            "type": "named",
+            "name": "--autoConnect",
+            "description": "Automatically connect to a running Chrome instance (requires Chrome 144+).",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--isolated",
+            "description": "Create a temporary user-data-dir that is auto-cleaned after the browser closes.",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--channel",
+            "description": "Chrome channel to use.",
+            "isRequired": false,
+            "choices": ["stable", "canary", "beta", "dev"]
+          },
+          {
+            "type": "named",
+            "name": "--executablePath",
+            "description": "Path to a custom Chrome executable.",
+            "isRequired": false,
+            "format": "filepath",
+            "valueHint": "chrome-path"
+          },
+          {
+            "type": "named",
+            "name": "--viewport",
+            "description": "Initial viewport size (e.g., 1280x720).",
+            "isRequired": false,
+            "valueHint": "WxH"
+          },
+          {
+            "type": "named",
+            "name": "--proxyServer",
+            "description": "Proxy server URL for Chrome network traffic.",
+            "isRequired": false,
+            "valueHint": "proxy-url"
+          },
+          {
+            "type": "named",
+            "name": "--userDataDir",
+            "description": "Path to a Chrome user data directory for persistent profiles.",
+            "isRequired": false,
+            "format": "filepath",
+            "valueHint": "dir-path"
+          },
+          {
+            "type": "named",
+            "name": "--categoryEmulation",
+            "description": "Enable emulation tool category (emulate, resize_page).",
+            "isRequired": false,
+            "format": "boolean"
+          },
+          {
+            "type": "named",
+            "name": "--categoryPerformance",
+            "description": "Enable performance tool category (performance_start_trace, performance_stop_trace, performance_analyze_insight).",
+            "isRequired": false,
+            "format": "boolean"
+          },
+          {
+            "type": "named",
+            "name": "--categoryNetwork",
+            "description": "Enable network tool category (list_network_requests, get_network_request).",
+            "isRequired": false,
+            "format": "boolean"
+          },
+          {
+            "type": "named",
+            "name": "--no-usage-statistics",
+            "description": "Disable Google usage statistics collection.",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--no-performance-crux",
+            "description": "Disable sending URLs to Google CrUX API for field performance data.",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--accept-insecure-certs",
+            "description": "Accept insecure or self-signed TLS certificates.",
+            "isRequired": false
+          },
+          {
+            "type": "named",
+            "name": "--chrome-arg",
+            "description": "Extra argument to pass to the Chrome process. Can be repeated.",
+            "isRequired": false,
+            "isRepeated": true,
+            "valueHint": "chrome-flag"
+          },
+          {
+            "type": "named",
+            "name": "--ignore-default-chrome-arg",
+            "description": "Disable a default Chrome argument. Only applies when Chrome is launched by chrome-devtools-mcp. Can be repeated.",
+            "isRequired": false,
+            "isRepeated": true,
+            "valueHint": "chrome-flag"
+          },
+          {
+            "type": "named",
+            "name": "--log-file",
+            "description": "Path to a log file for server output.",
+            "isRequired": false,
+            "format": "filepath",
+            "valueHint": "log-path"
+          }
+        ],
+        "environmentVariables": [
+          {
+            "name": "CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS",
+            "description": "Set to disable Google usage statistics collection. Alternative to the --no-usage-statistics flag.",
+            "isRequired": false
+          },
+          {
+            "name": "CI",
+            "description": "When set, disables usage statistics (same effect as CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS).",
+            "isRequired": false
+          },
+          {
+            "name": "DEBUG",
+            "description": "Set to '*' to enable verbose debug logging (use with --log-file).",
+            "isRequired": false
+          }
+        ]
+      }
+    ]
   }
 ]
