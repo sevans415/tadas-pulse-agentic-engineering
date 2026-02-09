@@ -540,7 +540,7 @@ google-chrome --remote-debugging-port=9222
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222
 ```
 
-You can also enable remote debugging from `chrome://flags` or by adding `--remote-debugging-port=9222` to your Chrome desktop shortcut.
+On Chrome 144+, you can also enable remote debugging by navigating to `chrome://inspect/#remote-debugging` within Chrome, or by adding `--remote-debugging-port=9222` to your Chrome desktop shortcut.
 
 Once Chrome is running with remote debugging, the `--autoConnect` flag will automatically discover and connect to it (requires Chrome 144+). For older Chrome versions, use `--browserUrl http://localhost:9222` instead.
 

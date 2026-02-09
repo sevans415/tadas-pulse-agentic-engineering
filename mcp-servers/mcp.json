@@ -174,8 +174,7 @@
       "chrome-devtools-mcp@0.16.0",
       "--autoConnect",
       "--no-usage-statistics"
-    ],
-    "env": {}
+    ]
   },
   "chrome-devtools-headless": {
     "title": "Chrome DevTools (Headless)",
@@ -187,7 +186,6 @@
       "chrome-devtools-mcp@0.16.0",
       "--headless",
       "--no-usage-statistics"
-    ],
-    "env": {}
+    ]
   }
 }

@@ -843,6 +843,14 @@
           },
           {
             "type": "named",
+            "name": "--ignore-default-chrome-arg",
+            "description": "Disable a default Chrome argument. Only applies when Chrome is launched by chrome-devtools-mcp. Can be repeated.",
+            "isRequired": false,
+            "isRepeated": true,
+            "valueHint": "chrome-flag"
+          },
+          {
+            "type": "named",
             "name": "--log-file",
             "description": "Path to a log file for server output.",
             "isRequired": false,
@@ -859,6 +867,11 @@
           {
             "name": "CI",
             "description": "When set, disables usage statistics (same effect as CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS).",
+            "isRequired": false
+          },
+          {
+            "name": "DEBUG",
+            "description": "Set to '*' to enable verbose debug logging (use with --log-file).",
             "isRequired": false
           }
         ]
