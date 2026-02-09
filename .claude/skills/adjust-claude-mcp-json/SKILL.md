@@ -11,12 +11,11 @@ argument-hint: [servers and/or constraints e.g. "github, sentry --read-only"]
 
 - [ ] Verify `mcp-servers/mcp.json` exists and has server entries
 - [ ] Parse `$ARGUMENTS` for server selection and constraints
-- [ ] For each selected server, transform the flat entry into Claude Code format
-- [ ] Check if `.mcp.json` already exists at project root; merge if so
-- [ ] Apply field adjustments (drop `title`/`description`, omit `type` for stdio, map `streamable-http` to `http`)
-- [ ] Apply user constraints (read-only, minimal, etc.)
+- [ ] For each selected server, transform the flat entry into Claude Code format (wrap under `mcpServers`, adjust fields, map transport types, apply constraints)
+- [ ] Check if `.mcp.json` already exists at project root; merge if exists, create if not
 - [ ] Run the validation checklist (see bottom of this file)
 - [ ] Present the result to the user before writing
+- [ ] Write the `.mcp.json` file
 
 Generate or update a Claude Code `.mcp.json` file using entries from this project's trusted server configurations in `mcp-servers/mcp.json`.
 
