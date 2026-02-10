@@ -215,5 +215,41 @@
     "headers": {
       "Authorization": "Basic ${LANGFUSE_API_CREDENTIALS}"
     }
+  },
+  "vercel-ro": {
+    "title": "Vercel (Read-Only)",
+    "description": "Use when monitoring Vercel deployments. List deployments and projects, check deployment status, view build and runtime logs. Read-only — no deployment creation, deletion, or promotion.",
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "vercel-platform-mcp-server@0.0.0"],
+    "env": {
+      "VERCEL_TOKEN": "${VERCEL_TOKEN}",
+      "VERCEL_TEAM_ID": "${VERCEL_TEAM_ID}",
+      "VERCEL_ENABLED_TOOLGROUPS": "readonly"
+    }
+  },
+  "vercel-rw": {
+    "title": "Vercel (Read-Write)",
+    "description": "Use when managing Vercel deployments end-to-end. List, create, cancel, delete, promote, and rollback deployments, plus view build and runtime logs.",
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "vercel-platform-mcp-server@0.0.0"],
+    "env": {
+      "VERCEL_TOKEN": "${VERCEL_TOKEN}",
+      "VERCEL_TEAM_ID": "${VERCEL_TEAM_ID}",
+      "VERCEL_ENABLED_TOOLGROUPS": "readonly,readwrite"
+    }
+  },
+  "langfuse-observability": {
+    "title": "Langfuse Observability",
+    "description": "Use when you need to browse and analyze LLM traces in Langfuse. List and inspect traces, observations, and scores. Readonly.",
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "langfuse-observability-mcp-server@0.1.0"],
+    "env": {
+      "LANGFUSE_SECRET_KEY": "${LANGFUSE_SECRET_KEY}",
+      "LANGFUSE_PUBLIC_KEY": "${LANGFUSE_PUBLIC_KEY}",
+      "LANGFUSE_BASE_URL": "${LANGFUSE_BASE_URL}"
+    }
   }
 }

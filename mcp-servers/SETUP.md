@@ -659,3 +659,112 @@ curl -s -o /dev/null -w "%{http_code}" \
 ```
 
 A `200` or `405` response confirms the credentials are valid and the endpoint is reachable.
+
+---
+
+## io.github.pulsemcp/vercel
+
+**Server:** `io.github.pulsemcp/vercel`
+**Repository:** [pulsemcp/mcp-servers](https://github.com/pulsemcp/mcp-servers) (subfolder `experimental/vercel`)
+**Package:** [`vercel-platform-mcp-server`](https://www.npmjs.com/package/vercel-platform-mcp-server) (npm)
+
+### Prerequisites
+
+- **Node.js 18+** and npm (provides the `npx` command)
+- A **Vercel account** at [vercel.com](https://vercel.com)
+
+### API token setup
+
+1. Log in to the [Vercel Dashboard](https://vercel.com/dashboard)
+2. Go to **Account Settings > Tokens** (or visit [vercel.com/account/tokens](https://vercel.com/account/tokens))
+3. Click **Create**, give the token a name, select the scope (team or personal), and set an expiration
+4. Copy the token — this is your `VERCEL_TOKEN` value
+
+### Team-scoped access
+
+If you want to scope operations to a specific team:
+
+- **VERCEL_TEAM_ID** — find it in your team's **Settings > General** page in the Vercel Dashboard
+- **VERCEL_TEAM_SLUG** — the URL slug for your team (e.g., `my-team` from `vercel.com/my-team`)
+
+Either `VERCEL_TEAM_ID` or `VERCEL_TEAM_SLUG` can be used; both are optional for personal account access.
+
+### Tool access control
+
+Fine-grained control over which tools are exposed:
+
+| Variable | Description |
+|---|---|
+| `VERCEL_ENABLED_TOOLGROUPS` | Comma-separated groups: `readonly`, `readwrite` |
+
+- **readonly**: list deployments, get deployment details, list projects, view build events, view runtime logs
+- **readwrite**: above + create, cancel, delete, promote, and rollback deployments
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `VERCEL_TOKEN` | Yes | Vercel API token |
+| `VERCEL_TEAM_ID` | No | Team ID for team-scoped operations |
+| `VERCEL_TEAM_SLUG` | No | Team URL slug for team-scoped operations |
+| `VERCEL_ENABLED_TOOLGROUPS` | No | Tool groups to enable (default: all) |
+
+### Verify setup
+
+```bash
+# Confirm your Vercel token works
+curl -s -H "Authorization: Bearer $VERCEL_TOKEN" https://api.vercel.com/v9/projects | head -c 200
+```
+
+If the curl command returns project data, the token is valid and the server will work.
+
+---
+
+## io.github.pulsemcp/langfuse-observability
+
+**Server:** `io.github.pulsemcp/langfuse-observability`
+**Repository:** [pulsemcp/mcp-servers](https://github.com/pulsemcp/mcp-servers) (subfolder `experimental/langfuse`)
+**Package:** [`langfuse-observability-mcp-server`](https://www.npmjs.com/package/langfuse-observability-mcp-server) (npm)
+
+### How it works
+
+This is a **local** MCP server that connects to the Langfuse API to provide readonly access to LLM traces and observations. It complements the remote `com.langfuse/langfuse` server (which manages prompts) by focusing on observability and trace analysis.
+
+### Prerequisites
+
+- **Node.js 18+** and npm (provides the `npx` command)
+- A **Langfuse** account (cloud or self-hosted) with tracing data
+
+### API key setup
+
+1. Log in to your Langfuse instance
+2. Go to **Settings > API Keys**
+3. Create a new API key pair — you'll get a public key (`pk-lf-...`) and secret key (`sk-lf-...`)
+4. Set `LANGFUSE_PUBLIC_KEY` to the public key and `LANGFUSE_SECRET_KEY` to the secret key
+
+### Endpoints by region
+
+| Region | Base URL |
+|---|---|
+| EU (default) | `https://cloud.langfuse.com` |
+| US | `https://us.cloud.langfuse.com` |
+| Self-hosted | Your instance URL (e.g., `https://langfuse.example.com`) |
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `LANGFUSE_SECRET_KEY` | Yes | Langfuse secret key (`sk-lf-...`) |
+| `LANGFUSE_PUBLIC_KEY` | Yes | Langfuse public key (`pk-lf-...`) |
+| `LANGFUSE_BASE_URL` | No | Langfuse instance base URL (default: `https://cloud.langfuse.com`) |
+
+### Verify setup
+
+```bash
+# Confirm API credentials are valid
+curl -s -o /dev/null -w "%{http_code}" \
+  -u "$LANGFUSE_PUBLIC_KEY:$LANGFUSE_SECRET_KEY" \
+  "${LANGFUSE_BASE_URL:-https://cloud.langfuse.com}/api/public/traces?limit=1"
+```
+
+A `200` response confirms the credentials are valid and the server will work.
