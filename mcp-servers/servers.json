@@ -1012,5 +1012,97 @@
         }
       }
     ]
+  },
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.pulsemcp/vercel",
+    "title": "Vercel",
+    "description": "Vercel deployment management, runtime logs, and project monitoring with tool access control.",
+    "version": "0.0.0",
+    "websiteUrl": "https://github.com/pulsemcp/mcp-servers/tree/main/experimental/vercel",
+    "repository": {
+      "url": "https://github.com/pulsemcp/mcp-servers",
+      "source": "github",
+      "id": "982277834",
+      "subfolder": "experimental/vercel"
+    },
+    "packages": [
+      {
+        "registryType": "npm",
+        "identifier": "vercel-platform-mcp-server",
+        "version": "0.0.0",
+        "runtimeHint": "npx",
+        "transport": {
+          "type": "stdio"
+        },
+        "environmentVariables": [
+          {
+            "name": "VERCEL_TOKEN",
+            "description": "Vercel API token for authentication. Create at https://vercel.com/account/tokens.",
+            "isRequired": true,
+            "isSecret": true
+          },
+          {
+            "name": "VERCEL_TEAM_ID",
+            "description": "Team ID for team-scoped operations.",
+            "isRequired": false
+          },
+          {
+            "name": "VERCEL_TEAM_SLUG",
+            "description": "Team URL slug for team-scoped operations.",
+            "isRequired": false
+          },
+          {
+            "name": "VERCEL_ENABLED_TOOLGROUPS",
+            "description": "Comma-separated list of tool groups to enable: readonly, readwrite. Defaults to all groups.",
+            "isRequired": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/static/main/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.pulsemcp/langfuse-observability",
+    "title": "Langfuse Observability",
+    "description": "Readonly browsing and analysis of Langfuse LLM traces and observations.",
+    "version": "0.1.0",
+    "websiteUrl": "https://github.com/pulsemcp/mcp-servers/tree/main/experimental/langfuse",
+    "repository": {
+      "url": "https://github.com/pulsemcp/mcp-servers",
+      "source": "github",
+      "id": "982277834",
+      "subfolder": "experimental/langfuse"
+    },
+    "packages": [
+      {
+        "registryType": "npm",
+        "identifier": "langfuse-observability-mcp-server",
+        "version": "0.1.0",
+        "runtimeHint": "npx",
+        "transport": {
+          "type": "stdio"
+        },
+        "environmentVariables": [
+          {
+            "name": "LANGFUSE_SECRET_KEY",
+            "description": "Langfuse secret key (sk-lf-...) for API authentication.",
+            "isRequired": true,
+            "isSecret": true
+          },
+          {
+            "name": "LANGFUSE_PUBLIC_KEY",
+            "description": "Langfuse public key (pk-lf-...) for API authentication.",
+            "isRequired": true
+          },
+          {
+            "name": "LANGFUSE_BASE_URL",
+            "description": "Langfuse instance base URL. Use https://cloud.langfuse.com (EU), https://us.cloud.langfuse.com (US), or your self-hosted URL.",
+            "isRequired": false,
+            "default": "https://cloud.langfuse.com"
+          }
+        ]
+      }
+    ]
   }
 ]
