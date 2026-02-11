@@ -144,15 +144,26 @@ The catalog (`servers.json`) is your source of truth for what servers exist. The
 
 ## Running Claude Code
 
-Create a `.env` file at the project root (it's gitignored) with your secrets, then use this to start a session:
+Create a `.env` file at the project root (it's gitignored) with your secrets. Then add this function to your shell profile (`~/.zshrc` or `~/.bashrc`):
 
-```bash
-set -a && source .env && set +a && ENABLE_TOOL_SEARCH=false claude --dangerously-skip-permissions
+```sh
+clauder() {
+  [ -f .env ] && set -a && source .env && set +a
+  ENABLE_TOOL_SEARCH=false claude --dangerously-skip-permissions "$@"
+}
 ```
 
-**Why `set -a && source .env && set +a`?**
+Then start a session with:
 
-MCP server configurations in `mcp-servers/mcp.json` use `${VAR}` interpolation for secrets (API keys, tokens, AWS credentials, etc.). These variables must be present in your shell environment before launching Claude Code so they're available to child processes (i.e., MCP servers). `set -a` / `set +a` tells the shell to automatically export every variable that gets sourced. See `mcp-servers/SETUP.md` for what credentials each server needs and how to obtain them.
+```bash
+clauder
+```
+
+All flags pass through, so `clauder --continue`, `clauder --resume`, etc. work as expected.
+
+**Why source `.env`?**
+
+MCP server configurations in `mcp-servers/mcp.json` use `${VAR}` interpolation for secrets (API keys, tokens, AWS credentials, etc.). These variables must be present in your shell environment before launching Claude Code so they're available to child processes (i.e., MCP servers). `set -a` / `set +a` tells the shell to automatically export every variable that gets sourced. The function conditionally sources `.env` only if one exists in the current directory. See `mcp-servers/SETUP.md` for what credentials each server needs and how to obtain them.
 
 **Why `ENABLE_TOOL_SEARCH=false`?**
 
